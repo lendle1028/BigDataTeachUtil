@@ -8,6 +8,7 @@ package imsofa.weka.gui;
 import imsofa.weka.factory.InstanceDataFactory;
 import imsofa.weka.gui.model.ClassifyResultTableModel;
 import imsofa.weka.gui.model.ClusterResultTableModel;
+import imsofa.weka.gui.table.ClassPredictionResultTable;
 import imsofa.weka.model.InstanceData;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -16,9 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -258,6 +257,8 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
                                 model.setClassIndex(classIndex);
                                 tableResults.setModel(model);
                                 
+                                textResult.setValue((eval.correct()/(double)inst.numInstances()));
+                                
                                 SwingUtilities.invokeLater(new Runnable() {
                                     @Override
                                     public void run() {
@@ -370,13 +371,16 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
         comboboxClassAttribute = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         panelSpecificSettings = new javax.swing.JPanel();
+        panelResult = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        textResult = new javax.swing.JFormattedTextField();
         panelActions = new javax.swing.JPanel();
         buttonStart = new javax.swing.JButton();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         panelPlot = new javax.swing.JPanel();
         scrollpane = new javax.swing.JScrollPane();
-        tableResults = new javax.swing.JTable();
+        tableResults = new ClassPredictionResultTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -398,7 +402,7 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCommonSettingsLayout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboboxClassAttribute, 0, 212, Short.MAX_VALUE))
+                .addComponent(comboboxClassAttribute, 0, 207, Short.MAX_VALUE))
         );
         panelCommonSettingsLayout.setVerticalGroup(
             panelCommonSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,6 +418,19 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
 
         panelSpecificSettings.setLayout(new java.awt.BorderLayout());
         panelSettings.add(panelSpecificSettings, java.awt.BorderLayout.CENTER);
+
+        panelResult.setBorder(javax.swing.BorderFactory.createTitledBorder("結果"));
+        panelResult.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setText("正確率：");
+        panelResult.add(jLabel2, java.awt.BorderLayout.WEST);
+
+        textResult.setEditable(false);
+        textResult.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
+        textResult.setMargin(new java.awt.Insets(0, 0, 0, 100));
+        panelResult.add(textResult, java.awt.BorderLayout.CENTER);
+
+        panelSettings.add(panelResult, java.awt.BorderLayout.SOUTH);
 
         panelLeft.add(panelSettings, java.awt.BorderLayout.CENTER);
 
@@ -459,6 +476,7 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
     private javax.swing.JButton buttonStart;
     protected javax.swing.JComboBox<String> comboboxClassAttribute;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
@@ -466,9 +484,11 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
     private javax.swing.JPanel panelCommonSettings;
     private javax.swing.JPanel panelLeft;
     private javax.swing.JPanel panelPlot;
+    private javax.swing.JPanel panelResult;
     protected javax.swing.JPanel panelSettings;
     protected javax.swing.JPanel panelSpecificSettings;
     private javax.swing.JScrollPane scrollpane;
     private javax.swing.JTable tableResults;
+    private javax.swing.JFormattedTextField textResult;
     // End of variables declaration//GEN-END:variables
 }

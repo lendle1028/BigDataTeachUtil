@@ -64,6 +64,11 @@ public class KmeansClusterPanel extends AbstractClusterPanel{
         ClusterEvaluation eval = new ClusterEvaluation();
         eval.setClusterer(simpleKMeans);
         eval.evaluateClusterer(trainInst, "", false);
+        double errors=0;
+        for(int i=0; i<eval.getNumClusters(); i++){
+            errors+=simpleKMeans.getM_squaredErrors()[i];
+        }
+        this.kmeansOptionsPanel.textResult.setValue(errors);
         return eval;
     }
 
@@ -72,7 +77,7 @@ public class KmeansClusterPanel extends AbstractClusterPanel{
         Map options=new HashMap();
         options.put("numClusters", Integer.valueOf("" + kmeansOptionsPanel.getSpinnerClusters().getValue()));
         options.put("distanceFunction", kmeansOptionsPanel.getComboboxDistanceFunction().getSelectedItem().toString());
-        options.put("classIndex", instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index());
+        //options.put("classIndex", instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index());
         return options;
     }
 
@@ -80,16 +85,16 @@ public class KmeansClusterPanel extends AbstractClusterPanel{
     protected Instances prepareInstances() {
         Instances inst = new Instances(instances);
         inst.setClassIndex(-1);
-        int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
-        inst.setClassIndex(classIndex);
+        //int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
+        inst.setClassIndex(-1);
         return inst;
     }
 
     @Override
     protected Instances prepareTrainingInstances(Instances inst) {
         Instances trainInst = new Instances(inst);
-        int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
-        trainInst.setClassIndex(classIndex);
+        //int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
+        trainInst.setClassIndex(-1);
         return trainInst;
     }
     

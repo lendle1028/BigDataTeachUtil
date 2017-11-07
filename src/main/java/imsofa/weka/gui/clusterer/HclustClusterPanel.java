@@ -120,7 +120,7 @@ public class HclustClusterPanel extends AbstractClusterPanel {
         Map options = new HashMap();
         options.put("numClusters", Integer.valueOf("" + hclustOptionsPanel.getSpinnerClusters().getValue()));
         options.put("distanceFunction", hclustOptionsPanel.getComboboxDistanceFunction().getSelectedItem().toString());
-        options.put("classIndex", instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index());
+        //options.put("classIndex", instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index());
         return options;
     }
 
@@ -128,16 +128,16 @@ public class HclustClusterPanel extends AbstractClusterPanel {
     protected Instances prepareInstances() {
         Instances inst = new Instances(instances);
         inst.setClassIndex(-1);
-        int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
-        inst.setClassIndex(classIndex);
+        //int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
+        //inst.setClassIndex(classIndex);
         return inst;
     }
 
     @Override
     protected Instances prepareTrainingInstances(Instances inst) {
         Instances trainInst = new Instances(inst);
-        int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
-        trainInst.setClassIndex(classIndex);
+        //int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
+        //trainInst.setClassIndex(classIndex);
         return trainInst;
     }
 

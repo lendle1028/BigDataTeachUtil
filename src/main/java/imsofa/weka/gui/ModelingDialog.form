@@ -41,7 +41,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Container class="javax.swing.JTabbedPane" name="jTabbedPane2">
+        <Container class="javax.swing.JTabbedPane" name="panelDecisionTree">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="&#x6c7a;&#x7b56;&#x6a39;">
@@ -57,6 +57,15 @@
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="J48">
                     <Property name="tabTitle" type="java.lang.String" value="J48"/>
+                  </JTabbedPaneConstraints>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="imsofa.weka.gui.decisiontree.RandomTreeDecisionTreePanel" name="panelRandomTreeDecisionTree">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                  <JTabbedPaneConstraints tabName="Random Tree">
+                    <Property name="tabTitle" type="java.lang.String" value="Random Tree"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
@@ -79,15 +88,6 @@
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="K-means">
                     <Property name="tabTitle" type="java.lang.String" value="K-means"/>
-                  </JTabbedPaneConstraints>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="imsofa.weka.gui.clusterer.HclustClusterPanel" name="panelHierarchicalCluster">
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="&#x968e;&#x5c64;&#x5206;&#x7fa4;">
-                    <Property name="tabTitle" type="java.lang.String" value="&#x968e;&#x5c64;&#x5206;&#x7fa4;"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>

@@ -21,8 +21,8 @@ public class ModelingDialog extends javax.swing.JDialog {
         initComponents();
         this.panelRegresstion.setInstances(instances);
         this.panelJ48DecisionTree.setInstances(instances);
-        this.panelHierarchicalCluster.setInstances(instances);
         this.panelKmeansCluster.setInstances(instances);
+        this.panelRandomTreeDecisionTree.setInstances(instances);
     }
 
     /**
@@ -36,22 +36,22 @@ public class ModelingDialog extends javax.swing.JDialog {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelRegresstion = new weka.gui.explorer.ClassifierPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        panelDecisionTree = new javax.swing.JTabbedPane();
         panelJ48DecisionTree = new imsofa.weka.gui.decisiontree.J48DecisionTreePanel();
+        panelRandomTreeDecisionTree = new imsofa.weka.gui.decisiontree.RandomTreeDecisionTreePanel();
         panelClustersOriginal = new javax.swing.JTabbedPane();
         panelKmeansCluster = new imsofa.weka.gui.clusterer.KmeansClusterPanel();
-        panelHierarchicalCluster = new imsofa.weka.gui.clusterer.HclustClusterPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTabbedPane1.addTab("迴歸", panelRegresstion);
 
-        jTabbedPane2.addTab("J48", panelJ48DecisionTree);
+        panelDecisionTree.addTab("J48", panelJ48DecisionTree);
+        panelDecisionTree.addTab("Random Tree", panelRandomTreeDecisionTree);
 
-        jTabbedPane1.addTab("決策樹", jTabbedPane2);
+        jTabbedPane1.addTab("決策樹", panelDecisionTree);
 
         panelClustersOriginal.addTab("K-means", panelKmeansCluster);
-        panelClustersOriginal.addTab("階層分群", panelHierarchicalCluster);
 
         jTabbedPane1.addTab("分群", panelClustersOriginal);
 
@@ -104,11 +104,11 @@ public class ModelingDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane panelClustersOriginal;
-    private imsofa.weka.gui.clusterer.HclustClusterPanel panelHierarchicalCluster;
+    private javax.swing.JTabbedPane panelDecisionTree;
     private imsofa.weka.gui.decisiontree.J48DecisionTreePanel panelJ48DecisionTree;
     private imsofa.weka.gui.clusterer.KmeansClusterPanel panelKmeansCluster;
+    private imsofa.weka.gui.decisiontree.RandomTreeDecisionTreePanel panelRandomTreeDecisionTree;
     private weka.gui.explorer.ClassifierPanel panelRegresstion;
     // End of variables declaration//GEN-END:variables
 }

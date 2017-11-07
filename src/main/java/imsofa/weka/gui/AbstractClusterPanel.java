@@ -6,13 +6,13 @@
 package imsofa.weka.gui;
 
 import imsofa.weka.gui.model.ClusterResultTableModel;
+import imsofa.weka.gui.table.ClassPredictionResultTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.Clusterer;
@@ -39,14 +39,14 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
 
     public void setInstances(Instances instances) {
         this.instances = instances;
-        Enumeration<Attribute> attributes = instances.enumerateAttributes();
+        /*Enumeration<Attribute> attributes = instances.enumerateAttributes();
         this.comboboxClassAttribute.removeAllItems();
         while (attributes.hasMoreElements()) {
             Attribute attribute = attributes.nextElement();
             if (attribute.isNominal()) {
                 this.comboboxClassAttribute.addItem(attribute.name());
             }
-        }
+        }*/
     }
 
     /**
@@ -81,7 +81,7 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
 
         Instances inst = this.prepareInstances();
         Instances trainInst = this.prepareTrainingInstances(inst);
-        int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
+        //int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
         /*inst.setClassIndex(-1);
         Instances trainInst = new Instances(inst);
         int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
@@ -110,7 +110,7 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
         ClusterResultTableModel model = new ClusterResultTableModel();
         model.setInstances(instances);
         model.setEvaluation(eval);
-        model.setClassIndex(classIndex);
+        //model.setClassIndex(classIndex);
         tableResults.setModel(model);
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -159,8 +159,6 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
         panelLeft = new javax.swing.JPanel();
         panelSettings = new javax.swing.JPanel();
         panelCommonSettings = new javax.swing.JPanel();
-        comboboxClassAttribute = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         panelSpecificSettings = new javax.swing.JPanel();
         panelActions = new javax.swing.JPanel();
         buttonStart = new javax.swing.JButton();
@@ -168,7 +166,7 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         panelPlot = new javax.swing.JPanel();
         scrollpane = new javax.swing.JScrollPane();
-        tableResults = new javax.swing.JTable();
+        tableResults = new ClassPredictionResultTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -178,28 +176,17 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
 
         panelSettings.setLayout(new java.awt.BorderLayout());
 
-        panelCommonSettings.setBorder(javax.swing.BorderFactory.createTitledBorder("一般設定"));
         panelCommonSettings.setPreferredSize(new java.awt.Dimension(299, 100));
-
-        jLabel1.setText("群組欄位：");
 
         javax.swing.GroupLayout panelCommonSettingsLayout = new javax.swing.GroupLayout(panelCommonSettings);
         panelCommonSettings.setLayout(panelCommonSettingsLayout);
         panelCommonSettingsLayout.setHorizontalGroup(
             panelCommonSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCommonSettingsLayout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboboxClassAttribute, 0, 212, Short.MAX_VALUE))
+            .addGap(0, 299, Short.MAX_VALUE)
         );
         panelCommonSettingsLayout.setVerticalGroup(
             panelCommonSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelCommonSettingsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelCommonSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboboxClassAttribute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(42, Short.MAX_VALUE))
+            .addGap(0, 100, Short.MAX_VALUE)
         );
 
         panelSettings.add(panelCommonSettings, java.awt.BorderLayout.NORTH);
@@ -249,8 +236,6 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonStart;
-    protected javax.swing.JComboBox<String> comboboxClassAttribute;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;

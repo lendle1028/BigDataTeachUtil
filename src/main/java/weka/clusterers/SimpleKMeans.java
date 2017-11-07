@@ -1733,6 +1733,12 @@ public class SimpleKMeans extends RandomizableClusterer implements
     return m_executionSlots;
   }
 
+    public double[] getM_squaredErrors() {
+        return m_squaredErrors;
+    }
+  
+  
+
   /**
    * Parses a given list of options.
    * <p/>

@@ -19,7 +19,7 @@ public class ModelingDialog extends javax.swing.JDialog {
     public ModelingDialog(java.awt.Frame parent, Instances instances, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.panelRegresstion.setInstances(instances);
+        this.panelLinearRegression.setInstances(instances);
         this.panelJ48DecisionTree.setInstances(instances);
         this.panelKmeansCluster.setInstances(instances);
         this.panelRandomTreeDecisionTree.setInstances(instances);
@@ -35,7 +35,8 @@ public class ModelingDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        panelRegresstion = new weka.gui.explorer.ClassifierPanel();
+        panelRegression = new javax.swing.JTabbedPane();
+        panelLinearRegression = new imsofa.weka.gui.regression.LinearRegressionPanel();
         panelDecisionTree = new javax.swing.JTabbedPane();
         panelJ48DecisionTree = new imsofa.weka.gui.decisiontree.J48DecisionTreePanel();
         panelRandomTreeDecisionTree = new imsofa.weka.gui.decisiontree.RandomTreeDecisionTreePanel();
@@ -44,7 +45,9 @@ public class ModelingDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTabbedPane1.addTab("迴歸", panelRegresstion);
+        panelRegression.addTab("線性迴歸", panelLinearRegression);
+
+        jTabbedPane1.addTab("迴歸", panelRegression);
 
         panelDecisionTree.addTab("J48", panelJ48DecisionTree);
         panelDecisionTree.addTab("Random Tree", panelRandomTreeDecisionTree);
@@ -108,7 +111,8 @@ public class ModelingDialog extends javax.swing.JDialog {
     private javax.swing.JTabbedPane panelDecisionTree;
     private imsofa.weka.gui.decisiontree.J48DecisionTreePanel panelJ48DecisionTree;
     private imsofa.weka.gui.clusterer.KmeansClusterPanel panelKmeansCluster;
+    private imsofa.weka.gui.regression.LinearRegressionPanel panelLinearRegression;
     private imsofa.weka.gui.decisiontree.RandomTreeDecisionTreePanel panelRandomTreeDecisionTree;
-    private weka.gui.explorer.ClassifierPanel panelRegresstion;
+    private javax.swing.JTabbedPane panelRegression;
     // End of variables declaration//GEN-END:variables
 }

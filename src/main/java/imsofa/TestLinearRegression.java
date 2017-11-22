@@ -49,7 +49,7 @@ public class TestLinearRegression {
         double[] y = instances.attributeToDoubleArray(0);
         double[][] x = new double[y.length][];
         for (int i = 0; i < y.length; i++) {
-            x[i] = new double[]{instances.instance(i).value(1), instances.instance(i).value(2)};
+            x[i] = new double[]{instances.instance(i).value(1), instances.instance(i).value(2), instances.instance(i).value(3)};
         }
 
         regression.newSampleData(y, x);
@@ -58,7 +58,7 @@ public class TestLinearRegression {
         System.out.println(regression.calculateRSquared());
         System.out.println(Arrays.toString(regression.estimateResiduals()));
         System.out.println(regression.calculateResidualSumOfSquares());
-
+        System.out.println(Arrays.toString(regression.estimateRegressionParametersStandardErrors()));
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setSize(800, 600);

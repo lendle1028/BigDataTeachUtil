@@ -27,6 +27,7 @@ public class ViewDataDialog extends javax.swing.JDialog {
         ArffSortedTableModel model = new ArffSortedTableModel(instances);
         panelAttributeSummary.setInstances(instances);
         panelAttributeVisualization.setInstances(instances);
+        panelMatrix.setInstances(instances);
         this.tableArffTable.setModel(model);
         this.tableArffTable.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
             @Override
@@ -70,8 +71,10 @@ public class ViewDataDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableArffTable = new weka.gui.arffviewer.ArffTable();
         jPanel1 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         panelAttributeSummary = new weka.gui.AttributeSummaryPanel();
         panelAttributeVisualization = new weka.gui.AttributeVisualizationPanel();
+        panelMatrix = new weka.gui.visualize.MatrixPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new java.awt.Dimension(500, 500));
@@ -82,9 +85,13 @@ public class ViewDataDialog extends javax.swing.JDialog {
 
         jSplitPane1.setLeftComponent(jScrollPane1);
 
-        jPanel1.setLayout(new java.awt.GridLayout(2, 1));
-        jPanel1.add(panelAttributeSummary);
-        jPanel1.add(panelAttributeVisualization);
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jTabbedPane1.addTab("摘要", panelAttributeSummary);
+        jTabbedPane1.addTab("分佈", panelAttributeVisualization);
+        jTabbedPane1.addTab("相關", panelMatrix);
+
+        jPanel1.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         jSplitPane1.setRightComponent(jPanel1);
 
@@ -139,8 +146,10 @@ public class ViewDataDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private weka.gui.AttributeSummaryPanel panelAttributeSummary;
     private weka.gui.AttributeVisualizationPanel panelAttributeVisualization;
+    private weka.gui.visualize.MatrixPanel panelMatrix;
     private weka.gui.arffviewer.ArffTable tableArffTable;
     // End of variables declaration//GEN-END:variables
 }

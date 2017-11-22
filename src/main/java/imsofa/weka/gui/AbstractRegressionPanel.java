@@ -7,6 +7,7 @@ package imsofa.weka.gui;
 
 import imsofa.weka.gui.model.ClusterResultTableModel;
 import imsofa.weka.gui.model.RegressionResultTableModel;
+import imsofa.weka.gui.model.RegressionStatisticsTableModel;
 import imsofa.weka.gui.regression.RegressionResult;
 import imsofa.weka.gui.table.ClassPredictionResultTable;
 import java.awt.Color;
@@ -26,12 +27,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.Clusterer;
 import weka.core.Attribute;
 import weka.core.Instances;
-import weka.filters.Filter;
-import weka.filters.unsupervised.attribute.Remove;
 
 /**
  *
@@ -130,10 +128,19 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
         model.setRegressionResult(result);
         tableResults.setModel(model);
         
+        RegressionStatisticsTableModel regressionStatisticsTableModel=new RegressionStatisticsTableModel();
+        regressionStatisticsTableModel.setCoefs(result.getCoefs());
+        regressionStatisticsTableModel.setIntercept(result.getIntercept());
+        regressionStatisticsTableModel.setMape(result.getMape());
+        regressionStatisticsTableModel.setMse(result.getMse());
+        regressionStatisticsTableModel.setpValues(result.getPValues());
+        tableStatistics.setModel(regressionStatisticsTableModel);
+        
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 tableResults.updateUI();
+                tableStatistics.updateUI();
                 revalidate();
             }
         });
@@ -162,6 +169,9 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         panelPlot = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableStatistics = new javax.swing.JTable();
         scrollpane = new javax.swing.JScrollPane();
         tableResults = new ClassPredictionResultTable();
 
@@ -221,6 +231,18 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
 
         jSplitPane2.setBottomComponent(jScrollPane1);
 
+        tableStatistics.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tableStatistics);
+
+        jTabbedPane1.addTab("統計", jScrollPane2);
+
         tableResults.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -234,7 +256,9 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
         ));
         scrollpane.setViewportView(tableResults);
 
-        jSplitPane2.setLeftComponent(scrollpane);
+        jTabbedPane1.addTab("資料", scrollpane);
+
+        jSplitPane2.setTopComponent(jTabbedPane1);
 
         jSplitPane1.setRightComponent(jSplitPane2);
 
@@ -247,8 +271,10 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
     protected javax.swing.JComboBox<String> comboboxTarget;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     protected javax.swing.JPanel panelActions;
     private javax.swing.JPanel panelCommonSettings;
     private javax.swing.JPanel panelLeft;
@@ -257,5 +283,6 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
     protected javax.swing.JPanel panelSpecificSettings;
     private javax.swing.JScrollPane scrollpane;
     private javax.swing.JTable tableResults;
+    private javax.swing.JTable tableStatistics;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,6 +5,7 @@
  */
 package imsofa.weka.gui.dialogs;
 
+import imsofa.weka.gui.table.ArffTableCellRendererEx;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
@@ -55,6 +56,10 @@ public class ViewDataDialog extends javax.swing.JDialog {
                 panelAttributeVisualization.setAttribute(tableArffTable.getSelectedColumn()-1);
             }
         });
+        
+        for(int i=0; i<tableArffTable.getColumnCount(); i++){
+            tableArffTable.getColumnModel().getColumn(i).setCellRenderer(new ArffTableCellRendererEx());
+        }
         
     }
 

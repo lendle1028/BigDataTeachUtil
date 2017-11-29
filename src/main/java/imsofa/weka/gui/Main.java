@@ -5,6 +5,7 @@
  */
 package imsofa.weka.gui;
 
+import imsofa.weka.gui.dialogs.ModelingDialog;
 import imsofa.weka.Global;
 import imsofa.weka.factory.InstanceDataFactory;
 import imsofa.weka.gui.dialogs.ViewDataDialog;
@@ -91,7 +92,7 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel1.add(buttonModeling);
 
-        buttonVerify.setText("檢視模型");
+        buttonVerify.setText("檢驗模型");
         jPanel1.add(buttonVerify);
 
         tableData.setModel(new javax.swing.table.DefaultTableModel(

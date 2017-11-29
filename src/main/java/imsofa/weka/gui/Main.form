@@ -95,7 +95,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="buttonVerify">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&#x6aa2;&#x8996;&#x6a21;&#x578b;"/>
+            <Property name="text" type="java.lang.String" value="&#x6aa2;&#x9a57;&#x6a21;&#x578b;"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -103,10 +103,10 @@ public class MatrixPanel extends JPanel {
    * The button that updates the display to reflect the changes made by the
    * user. E.g. changed attribute set for the matrix
    */
-  protected JButton m_updateBt = new JButton("Update");
+  protected JButton m_updateBt = new JButton("更新");
 
   /** The button to display a window to select attributes */
-  protected JButton m_selAttrib = new JButton("Select Attributes");
+  protected JButton m_selAttrib = new JButton("選擇屬性");
 
   /** The dataset for which this panel will display the plot matrix for */
   protected Instances m_data = null;
@@ -142,16 +142,16 @@ public class MatrixPanel extends JPanel {
   protected JTextField m_resamplePercent = new JTextField(5);
 
   /** The label for resample percentage */
-  protected JButton m_resampleBt = new JButton("SubSample % :");
+  protected JButton m_resampleBt = new JButton("子樣本 % :");
 
   /** Random seed for random subsample */
   protected JTextField m_rseed = new JTextField(5);
 
   /** Displays the current size beside the slider bar for cell size */
-  private final JLabel m_plotSizeLb = new JLabel("PlotSize: [100]");
+  private final JLabel m_plotSizeLb = new JLabel("圖點大小: [100]");
 
   /** Displays the current size beside the slider bar for point size */
-  private final JLabel m_pointSizeLb = new JLabel("PointSize: [10]");
+  private final JLabel m_pointSizeLb = new JLabel("圖點大小: [10]");
 
   /** This array contains the indices of the attributes currently selected */
   private int[] m_selectedAttribs;
@@ -232,7 +232,7 @@ public class MatrixPanel extends JPanel {
   protected double m_previousPercent = -1;
 
   protected JCheckBox m_fastScroll = new JCheckBox(
-    "Fast scrolling (uses more memory)");
+    "快速捲動 (需要更多記憶體)");
 
   /**
    * Constructor
@@ -246,12 +246,12 @@ public class MatrixPanel extends JPanel {
       public void actionPerformed(ActionEvent ae) {
         final JDialog jd =
           new JDialog((JFrame) MatrixPanel.this.getTopLevelAncestor(),
-            "Attribute Selection Panel", ModalityType.DOCUMENT_MODAL);
+            "屬性選擇面板", ModalityType.DOCUMENT_MODAL);
 
         JPanel jp = new JPanel();
         JScrollPane js = new JScrollPane(m_attribList);
         JButton okBt = new JButton("OK");
-        JButton cancelBt = new JButton("Cancel");
+        JButton cancelBt = new JButton("取消");
         final int[] savedSelection = m_attribList.getSelectedIndices();
 
         okBt.addActionListener(new ActionListener() {
@@ -313,7 +313,7 @@ public class MatrixPanel extends JPanel {
     m_plotSize.addChangeListener(new ChangeListener() {
       @Override
       public void stateChanged(ChangeEvent ce) {
-        m_plotSizeLb.setText("PlotSize: [" + m_plotSize.getValue() + "]");
+        m_plotSizeLb.setText("圖點大小: [" + m_plotSize.getValue() + "]");
         m_plotSizeLb.setPreferredSize(m_plotLBSizeD);
         m_jitter.setMaximum(m_plotSize.getValue() / 5); // 20% of cell Size
         m_regenerateOSI = true;
@@ -323,7 +323,7 @@ public class MatrixPanel extends JPanel {
     m_pointSize.addChangeListener(new ChangeListener() {
       @Override
       public void stateChanged(ChangeEvent ce) {
-        m_pointSizeLb.setText("PointSize: [" + m_pointSize.getValue() + "]");
+        m_pointSizeLb.setText("圖點大小: [" + m_pointSize.getValue() + "]");
         m_pointSizeLb.setPreferredSize(m_pointLBSizeD);
         datapointSize = m_pointSize.getValue();
         if (m_fastScroll.isSelected()) {
@@ -331,11 +331,11 @@ public class MatrixPanel extends JPanel {
         }
       }
     });
-
+    m_resampleBt.setVisible(false);
     m_resampleBt.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JLabel rseedLb = new JLabel("Random Seed: ");
+        JLabel rseedLb = new JLabel("隨機種子: ");
         JTextField rseedTxt = m_rseed;
         JLabel percentLb = new JLabel("Subsample as");
         JLabel percent2Lb = new JLabel("% of input: ");
@@ -415,7 +415,7 @@ public class MatrixPanel extends JPanel {
 
     m_plotLBSizeD = m_plotSizeLb.getPreferredSize();
     m_pointLBSizeD = m_pointSizeLb.getPreferredSize();
-    m_pointSizeLb.setText("PointSize: [1]");
+    m_pointSizeLb.setText("圖點大小: [1]");
     m_pointSizeLb.setPreferredSize(m_pointLBSizeD);
     m_resampleBt.setPreferredSize(m_selAttrib.getPreferredSize());
 
@@ -434,7 +434,7 @@ public class MatrixPanel extends JPanel {
     p4.add(m_pointSize, gbc);
     gbc.weightx = 0;
     gbc.gridwidth = GridBagConstraints.RELATIVE;
-    p4.add(new JLabel("Jitter: "), gbc);
+    p4.add(new JLabel("分散度: "), gbc);
     gbc.weightx = 1;
     gbc.gridwidth = GridBagConstraints.REMAINDER;
     p4.add(m_jitter, gbc);
@@ -446,6 +446,7 @@ public class MatrixPanel extends JPanel {
     p3.add(m_fastScroll, gbc);
     p3.add(m_updateBt, gbc);
     p3.add(m_selAttrib, gbc);
+    m_selAttrib.setVisible(false);
     gbc.gridwidth = GridBagConstraints.RELATIVE;
     gbc.weightx = 0;
     gbc.fill = GridBagConstraints.VERTICAL;
@@ -453,8 +454,9 @@ public class MatrixPanel extends JPanel {
     p3.add(m_resampleBt, gbc);
     gbc.gridwidth = GridBagConstraints.REMAINDER;
     p3.add(m_resamplePercent, gbc);
+    m_resamplePercent.setVisible(false);
 
-    p2.setBorder(BorderFactory.createTitledBorder("Class Colour"));
+    p2.setBorder(BorderFactory.createTitledBorder("類別顏色"));
     p2.add(m_cp, BorderLayout.SOUTH);
 
     gbc.insets = new Insets(8, 5, 2, 5);
@@ -514,7 +516,7 @@ public class MatrixPanel extends JPanel {
     m_js.setViewportView(m_plotsPanel);
     m_js.setColumnHeaderView(m_plotsPanel.getColHeader());
     m_js.setRowHeaderView(m_plotsPanel.getRowHeader());
-    final JLabel lb = new JLabel(" Plot Matrix");
+    final JLabel lb = new JLabel(" 散佈矩陣");
     lb.setFont(f);
     lb.setForeground(fontColor);
     lb.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -725,7 +727,7 @@ public class MatrixPanel extends JPanel {
     for (int i = 0; i < tempAttribNames.length; i++) {
       type = " (" + Attribute.typeToStringShort(m_data.attribute(i)) + ")";
       tempAttribNames[i] =
-        new String("Colour: " + m_data.attribute(i).name() + " " + type);
+        new String("顏色: " + m_data.attribute(i).name() + " " + type);
       m_classAttrib.addItem(tempAttribNames[i]);
     }
     if (m_data.classIndex() == -1) {
@@ -1032,13 +1034,15 @@ public class MatrixPanel extends JPanel {
       if (found == 0) {
         return;
       }
-
+      if(1==1){
+          return;
+      }
       JFrame jf =
-        new JFrame("Weka Explorer: Visualizing " + m_data.relationName());
+        new JFrame("瀏覽器 " + m_data.relationName());
       VisualizePanel vp = new VisualizePanel();
       try {
         PlotData2D pd = new PlotData2D(m_data);
-        pd.setPlotName("Master Plot");
+        pd.setPlotName("主體圖");
         vp.setMasterPlot(pd);
         // System.out.println("x: "+i+" y: "+j);
         vp.setXIndex(m_selectedAttribs[i]);
@@ -1092,20 +1096,20 @@ public class MatrixPanel extends JPanel {
     public String getToolTipText(MouseEvent event) {
       int xpos = extpad, ypos = extpad;
 
-      for (int j = m_selectedAttribs.length - 1; j >= 0; j--) {
+      /*for (int j = m_selectedAttribs.length - 1; j >= 0; j--) {
         for (int m_selectedAttrib : m_selectedAttribs) {
           if (event.getX() >= xpos && event.getX() <= xpos + cellSize + extpad) {
             if (event.getY() >= ypos
               && event.getY() <= ypos + cellSize + extpad) {
               return ("X: " + m_data.attribute(m_selectedAttrib).name()
-                + " Y: " + m_data.attribute(m_selectedAttribs[j]).name() + " (click to enlarge)");
+                + " Y: " + m_data.attribute(m_selectedAttribs[j]).name() + " (點擊放大)");
             }
           }
           xpos += cellSize + extpad;
         }
         xpos = extpad;
         ypos += cellSize + extpad;
-      }
+      }*/
       return ("Matrix Panel");
     }
 

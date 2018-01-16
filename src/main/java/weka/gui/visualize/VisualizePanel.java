@@ -1809,10 +1809,10 @@ public class VisualizePanel extends PrintablePanel {
     m_FileChooser.setFileFilter(m_ArffFilter);
     m_FileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-    m_XCombo.setToolTipText("Select the attribute for the x axis");
-    m_YCombo.setToolTipText("Select the attribute for the y axis");
-    m_ColourCombo.setToolTipText("Select the attribute to colour on");
-    m_ShapeCombo.setToolTipText("Select the shape to use for data selection");
+    m_XCombo.setToolTipText("選擇要當作 X 軸的屬性");
+    m_YCombo.setToolTipText("選擇要當作 Y 軸的屬性");
+    m_ColourCombo.setToolTipText("選擇用來區別顏色的屬性");
+    m_ShapeCombo.setToolTipText("選擇繪圖形狀");
 
     m_XCombo.setPreferredSize(COMBO_SIZE);
     m_YCombo.setPreferredSize(COMBO_SIZE);
@@ -2039,14 +2039,14 @@ public class VisualizePanel extends PrintablePanel {
     combos.add(m_Jitter, constraints);
 
     m_classSurround = new JPanel();
-    m_classSurround.setBorder(BorderFactory.createTitledBorder("Class colour"));
+    m_classSurround.setBorder(BorderFactory.createTitledBorder("類別顏色"));
     m_classSurround.setLayout(new BorderLayout());
 
     m_classPanel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
     m_classSurround.add(m_classPanel, BorderLayout.CENTER);
 
     GridBagLayout gb2 = new GridBagLayout();
-    m_plotSurround.setBorder(BorderFactory.createTitledBorder("Plot"));
+    m_plotSurround.setBorder(BorderFactory.createTitledBorder("繪圖"));
     m_plotSurround.setLayout(gb2);
 
     constraints.fill = GridBagConstraints.BOTH;
@@ -2076,10 +2076,10 @@ public class VisualizePanel extends PrintablePanel {
     add(m_classSurround, BorderLayout.SOUTH);
 
     String[] SNames = new String[4];
-    SNames[0] = "Select Instance";
-    SNames[1] = "Rectangle";
-    SNames[2] = "Polygon";
-    SNames[3] = "Polyline";
+    SNames[0] = "選擇";
+    SNames[1] = "矩形";
+    SNames[2] = "多邊形";
+    SNames[3] = "多邊線段";
 
     m_ShapeCombo.setModel(new DefaultComboBoxModel(SNames));
     m_ShapeCombo.setEnabled(true);

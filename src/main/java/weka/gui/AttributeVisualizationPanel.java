@@ -250,11 +250,11 @@ public class AttributeVisualizationPanel extends PrintablePanel {
     m_data = new Instances(newins);
     if (m_colorAttrib != null) {
       m_colorAttrib.removeAllItems();
-      m_colorAttrib.addItem("No class");
+      m_colorAttrib.addItem("無類別");
       for (int i = 0; i < m_data.numAttributes(); i++) {
         String type = "(" + Attribute.typeToStringShort(m_data.attribute(i))
           + ")";
-        m_colorAttrib.addItem(new String("Class: " + m_data.attribute(i).name()
+        m_colorAttrib.addItem(new String("類別: " + m_data.attribute(i).name()
           + " " + type));
       }
       if (m_data.classIndex() >= 0) {

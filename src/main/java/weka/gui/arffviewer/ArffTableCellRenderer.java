@@ -119,7 +119,6 @@ public class ArffTableCellRenderer
     
     result = super.getTableCellRendererComponent(
         table, value, isSelected, hasFocus, row, column);
-    
     // search
     if (table instanceof ArffTable)
       searchString = ((ArffTable) table).getSearchString();

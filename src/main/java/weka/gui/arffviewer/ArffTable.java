@@ -334,7 +334,7 @@ public class ArffTable extends JTable {
 
     if ((columnIndex >= 0) && (columnIndex < getColumnCount())) {
       if (columnIndex == 0) {
-        result = "No.";
+        result = "編號.";
       } else {
         result = arffModel.getAttributeAt(columnIndex).name();
       }

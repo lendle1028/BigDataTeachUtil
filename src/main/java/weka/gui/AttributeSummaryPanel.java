@@ -108,7 +108,7 @@ public class AttributeSummaryPanel extends JPanel {
     JPanel simple = new JPanel();
     GridBagLayout gbL = new GridBagLayout();
     simple.setLayout(gbL);
-    JLabel lab = new JLabel("Name:", SwingConstants.RIGHT);
+    JLabel lab = new JLabel("名稱:", SwingConstants.RIGHT);
     lab.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
     GridBagConstraints gbC = new GridBagConstraints();
     gbC.anchor = GridBagConstraints.EAST;
@@ -128,7 +128,7 @@ public class AttributeSummaryPanel extends JPanel {
     simple.add(m_AttributeNameLab);
     m_AttributeNameLab.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 10));
 
-    lab = new JLabel("Type:", SwingConstants.RIGHT);
+    lab = new JLabel("類型:", SwingConstants.RIGHT);
     lab.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
     gbC = new GridBagConstraints();
     gbC.anchor = GridBagConstraints.EAST;
@@ -148,7 +148,7 @@ public class AttributeSummaryPanel extends JPanel {
     m_AttributeTypeLab.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 10));
 
     // Put into a separate panel?
-    lab = new JLabel("Missing:", SwingConstants.RIGHT);
+    lab = new JLabel("遺失值:", SwingConstants.RIGHT);
     lab.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 0));
     gbC = new GridBagConstraints();
     gbC.anchor = GridBagConstraints.EAST;
@@ -167,7 +167,7 @@ public class AttributeSummaryPanel extends JPanel {
     simple.add(m_MissingLab);
     m_MissingLab.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 10));
 
-    lab = new JLabel("Distinct:", SwingConstants.RIGHT);
+    lab = new JLabel("獨特值:", SwingConstants.RIGHT);
     lab.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 0));
     gbC = new GridBagConstraints();
     gbC.anchor = GridBagConstraints.EAST;
@@ -186,7 +186,7 @@ public class AttributeSummaryPanel extends JPanel {
     simple.add(m_DistinctLab);
     m_DistinctLab.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 10));
 
-    lab = new JLabel("Unique:", SwingConstants.RIGHT);
+    lab = new JLabel("唯一值:", SwingConstants.RIGHT);
     lab.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 0));
     gbC = new GridBagConstraints();
     gbC.anchor = GridBagConstraints.EAST;
@@ -313,15 +313,15 @@ public class AttributeSummaryPanel extends JPanel {
       tempR.setHorizontalAlignment(JLabel.RIGHT);
       m_StatsTable.getColumnModel().getColumn(0).setCellRenderer(tempR);
     } else if (as.numericStats != null) {
-      Object[] colNames = { "Statistic", "Value" };
+      Object[] colNames = { "統計項目", "數值" };
       Object[][] data = new Object[4][2];
-      data[0][0] = "Minimum";
+      data[0][0] = "最小值";
       data[0][1] = Utils.doubleToString(as.numericStats.min, 3);
-      data[1][0] = "Maximum";
+      data[1][0] = "最大值";
       data[1][1] = Utils.doubleToString(as.numericStats.max, 3);
-      data[2][0] = "Mean" + ((!m_allEqualWeights) ? " (weighted)" : "");
+      data[2][0] = "平均值" + ((!m_allEqualWeights) ? " (加權)" : "");
       data[2][1] = Utils.doubleToString(as.numericStats.mean, 3);
-      data[3][0] = "StdDev" + ((!m_allEqualWeights) ? " (weighted)" : "");
+      data[3][0] = "標準差" + ((!m_allEqualWeights) ? " (加權)" : "");
       data[3][1] = Utils.doubleToString(as.numericStats.stdDev, 3);
       m_StatsTable.setModel(new DefaultTableModel(data, colNames));
     } else {
@@ -341,22 +341,22 @@ public class AttributeSummaryPanel extends JPanel {
     m_AttributeNameLab.setText(att.name());
     switch (att.type()) {
     case Attribute.NOMINAL:
-      m_AttributeTypeLab.setText("Nominal");
+      m_AttributeTypeLab.setText("類別");
       break;
     case Attribute.NUMERIC:
-      m_AttributeTypeLab.setText("Numeric");
+      m_AttributeTypeLab.setText("數值");
       break;
     case Attribute.STRING:
-      m_AttributeTypeLab.setText("String");
+      m_AttributeTypeLab.setText("字串");
       break;
     case Attribute.DATE:
-      m_AttributeTypeLab.setText("Date");
+      m_AttributeTypeLab.setText("日期");
       break;
     case Attribute.RELATIONAL:
-      m_AttributeTypeLab.setText("Relational");
+      m_AttributeTypeLab.setText("關聯");
       break;
     default:
-      m_AttributeTypeLab.setText("Unknown");
+      m_AttributeTypeLab.setText("未知");
       break;
     }
     m_MissingLab.setText("...");

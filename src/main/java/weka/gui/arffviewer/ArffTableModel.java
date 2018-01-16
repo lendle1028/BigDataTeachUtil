@@ -648,22 +648,22 @@ public class ArffTableModel extends DefaultTableModel implements Undoable {
             // attribute type
             switch (getType(columnIndex)) {
             case Attribute.DATE:
-              result += "<br><font size=\"-2\">Date</font>";
+              result += "<br><font size=\"-2\">日期</font>";
               break;
             case Attribute.NOMINAL:
-              result += "<br><font size=\"-2\">Nominal</font>";
+              result += "<br><font size=\"-2\">類別</font>";
               break;
             case Attribute.STRING:
-              result += "<br><font size=\"-2\">String</font>";
+              result += "<br><font size=\"-2\">字串</font>";
               break;
             case Attribute.NUMERIC:
-              result += "<br><font size=\"-2\">Numeric</font>";
+              result += "<br><font size=\"-2\">數值</font>";
               break;
             case Attribute.RELATIONAL:
-              result += "<br><font size=\"-2\">Relational</font>";
+              result += "<br><font size=\"-2\">關聯</font>";
               break;
             default:
-              result += "<br><font size=\"-2\">???</font>";
+              result += "<br><font size=\"-2\">未知</font>";
             }
 
             result += "</center></html>";

@@ -36,7 +36,8 @@ public class Main extends javax.swing.JFrame {
         wizardWindow.setSize(300, 700);
         wizardWindow.setLocationRelativeTo(this);
         wizardWindow.setLocation(this.getSize().width+50, 0);
-        wizardWindow.setVisible(true);
+        //wizardWindow.setVisible(true);
+        this.setLocationRelativeTo(null);
         
         Global.wizard=wizardWindow;
     }
@@ -142,6 +143,7 @@ public class Main extends javax.swing.JFrame {
             Instances instances=model.getInstanceDataList().get(rowIndex).getInstances();
             ViewDataDialog dlg=new ViewDataDialog(this, instances, false);
             dlg.setSize(1000, 700);
+            dlg.setLocationRelativeTo(this);
             dlg.setVisible(true);
         }
     }//GEN-LAST:event_buttonViewActionPerformed

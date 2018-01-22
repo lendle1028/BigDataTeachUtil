@@ -397,7 +397,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>imsofa.weka.gui.Main</mainClass>
+                            <mainClass>imsofa.weka.gui.MainLectureList</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

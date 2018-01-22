@@ -12,6 +12,7 @@ import imsofa.weka.gui.dialogs.ViewDataDialog;
 import imsofa.weka.gui.model.InstanceDataTableModel;
 import imsofa.weka.gui.wizard.WizardWindow;
 import imsofa.weka.model.InstanceData;
+import java.io.File;
 import java.util.List;
 import weka.core.Instances;
 
@@ -24,10 +25,10 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    public Main() {
+    public Main(File homeFolder) {
         initComponents();
         this.setSize(1000, 700);
-        List<InstanceData> list=InstanceDataFactory.newInstance().loadInstanceData(null);
+        List<InstanceData> list=InstanceDataFactory.newInstance().loadInstanceData(homeFolder);
         InstanceDataTableModel instanceDataTableModel=new InstanceDataTableModel();
         instanceDataTableModel.setInstanceDataList(list);
         this.tableData.setModel(instanceDataTableModel);
@@ -64,7 +65,7 @@ public class Main extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setLayout(new java.awt.GridLayout(6, 1));
 
@@ -190,7 +191,7 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                new Main(null).setVisible(true);
             }
         });
     }

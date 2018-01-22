@@ -16,6 +16,6 @@ import java.util.List;
 public abstract class InstanceDataFactory {
     public abstract List<InstanceData> loadInstanceData(File homeFolder);
     public static final InstanceDataFactory newInstance(){
-        return new SampleInstanceDataFactory();
+        return new BasicInstanceDataFactory();
     }
 }

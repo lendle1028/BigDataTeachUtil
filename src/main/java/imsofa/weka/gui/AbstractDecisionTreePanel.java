@@ -13,6 +13,10 @@ import imsofa.weka.model.InstanceData;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,18 +51,13 @@ import weka.gui.treevisualizer.TreeVisualizer;
  *
  * @author lendle
  */
-public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
+public abstract class AbstractDecisionTreePanel extends AbstractModelingPanel {
 
-    protected Instances instances = null;
     protected Classifier classifier = new J48();
 
-    public Instances getInstances() {
-        return instances;
-    }
-
-    public void setInstances(Instances instances) {
-        this.instances = instances;
-        Enumeration<Attribute> attributes = instances.enumerateAttributes();
+    public void setPanelContext(ModelingPanelContext panelContext) {
+        super.setPanelContext(panelContext);
+        Enumeration<Attribute> attributes = panelContext.getInstances().enumerateAttributes();
         this.comboboxClassAttribute.removeAllItems();
         while (attributes.hasMoreElements()) {
             Attribute attribute = attributes.nextElement();
@@ -68,6 +67,15 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
         }
     }
 
+    @Override
+    protected void saveModel(File outputFile) throws IOException{
+        try(ObjectOutputStream output=new ObjectOutputStream(new FileOutputStream(outputFile))){
+            output.writeObject(this.classifier);
+            output.flush();
+        }
+    }
+   
+    
     /**
      * Creates new form KmeansClusterPanel
      */
@@ -99,13 +107,13 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
     protected void startButtonActionPerformed() throws Exception {
         panelPlot.removeAll();
         setupClassifier();
-        final int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
+        final int classIndex = panelContext.getInstances().attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
 
         Thread m_RunThread = new Thread() {
             @Override
             public void run() {
                 CostMatrix costMatrix = null;
-                Instances inst = new Instances(instances);
+                Instances inst = new Instances(panelContext.getInstances());
                 ConverterUtils.DataSource source = null;
                 ClassifierErrorsPlotInstances plotInstances = null;
 
@@ -227,7 +235,7 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
                             if (!saveVis && outputModel) {
                                 ArrayList<Object> vv = new ArrayList<Object>();
                                 vv.add(fullClassifier);
-                                Instances trainHeader = new Instances(instances, 0);
+                                Instances trainHeader = new Instances(panelContext.getInstances(), 0);
                                 trainHeader.setClassIndex(classIndex);
                                 vv.add(trainHeader);
                                 if (grph != null) {
@@ -342,15 +350,15 @@ public abstract class AbstractDecisionTreePanel extends javax.swing.JPanel {
         frame.setSize(800, 600);
 
         List<InstanceData> list = InstanceDataFactory.newInstance().loadInstanceData(null);
-        AbstractDecisionTreePanel panel = new AbstractDecisionTreePanel() {
+        /*AbstractDecisionTreePanel panel = new AbstractDecisionTreePanel() {
             @Override
             protected void setupClassifier() {
                 
             }
         };
 
-        panel.setInstances(list.get(1).getInstances());
-        frame.add(panel);
+        //panel.setInstances(list.get(1).getInstances());
+        frame.add(panel);*/
 
         frame.setVisible(true);
     }

@@ -5,7 +5,7 @@
  */
 package imsofa.weka.gui.dialogs;
 
-import weka.core.Instances;
+import imsofa.weka.gui.ModelingPanelContext;
 
 /**
  *
@@ -16,13 +16,13 @@ public class ModelingDialog extends javax.swing.JDialog {
     /**
      * Creates new form ModelingDialog
      */
-    public ModelingDialog(java.awt.Frame parent, Instances instances, boolean modal) {
+    public ModelingDialog(java.awt.Frame parent, ModelingPanelContext panelContext, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.panelLinearRegression.setInstances(instances);
-        this.panelJ48DecisionTree.setInstances(instances);
-        this.panelKmeansCluster.setInstances(instances);
-        this.panelRandomTreeDecisionTree.setInstances(instances);
+        this.panelLinearRegression.setPanelContext(panelContext);
+        this.panelJ48DecisionTree.setPanelContext(panelContext);
+        this.panelKmeansCluster.setPanelContext(panelContext);
+        this.panelRandomTreeDecisionTree.setPanelContext(panelContext);
     }
 
     /**

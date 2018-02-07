@@ -107,6 +107,14 @@
                     <Property name="text" type="java.lang.String" value="&#x57f7;&#x884c;"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JButton" name="buttonSaveModel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x5132;&#x5b58;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSaveModelActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>

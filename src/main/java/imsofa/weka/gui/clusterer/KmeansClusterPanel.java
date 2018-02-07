@@ -5,8 +5,9 @@
  */
 package imsofa.weka.gui.clusterer;
 
-import imsofa.weka.Global;
 import imsofa.weka.gui.AbstractClusterPanel;
+import imsofa.weka.gui.ModelingPanelContext;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.SpinnerNumberModel;
@@ -42,9 +43,9 @@ public class KmeansClusterPanel extends AbstractClusterPanel{
     
 
     @Override
-    public void setInstances(Instances instances) {
-        super.setInstances(instances); //To change body of generated methods, choose Tools | Templates.
-        ((SpinnerNumberModel) kmeansOptionsPanel.getSpinnerClusters().getModel()).setMaximum(instances.numInstances());
+    public void setPanelContext(ModelingPanelContext panelContext) {
+        super.setPanelContext(panelContext);
+        ((SpinnerNumberModel) kmeansOptionsPanel.getSpinnerClusters().getModel()).setMaximum(panelContext.getInstances().numInstances());
     }
     
     
@@ -56,9 +57,9 @@ public class KmeansClusterPanel extends AbstractClusterPanel{
         String distanceFunctionName=(String) options.get("distanceFunction");
         DistanceFunction distanceFunction=null;
         if(distanceFunctionName.equals("尤拉距離")){
-            distanceFunction=new EuclideanDistance(instances);
+            distanceFunction=new EuclideanDistance(panelContext.getInstances());
         }else{
-            distanceFunction=new ManhattanDistance(instances);
+            distanceFunction=new ManhattanDistance(panelContext.getInstances());
         }
         simpleKMeans.setDistanceFunction(distanceFunction);
         ClusterEvaluation eval = new ClusterEvaluation();
@@ -83,7 +84,7 @@ public class KmeansClusterPanel extends AbstractClusterPanel{
 
     @Override
     protected Instances prepareInstances() {
-        Instances inst = new Instances(instances);
+        Instances inst = new Instances(panelContext.getInstances());
         inst.setClassIndex(-1);
         //int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
         inst.setClassIndex(-1);
@@ -97,5 +98,4 @@ public class KmeansClusterPanel extends AbstractClusterPanel{
         trainInst.setClassIndex(-1);
         return trainInst;
     }
-    
 }

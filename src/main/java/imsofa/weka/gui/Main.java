@@ -8,11 +8,12 @@ package imsofa.weka.gui;
 import imsofa.weka.gui.dialogs.ModelingDialog;
 import imsofa.weka.Global;
 import imsofa.weka.factory.InstanceDataFactory;
+import imsofa.weka.gui.dialogs.ClusterValidationDialog;
 import imsofa.weka.gui.dialogs.ViewDataDialog;
 import imsofa.weka.gui.model.InstanceDataTableModel;
+import imsofa.weka.gui.model.lecture.Lecture;
 import imsofa.weka.gui.wizard.WizardWindow;
 import imsofa.weka.model.InstanceData;
-import java.io.File;
 import java.util.List;
 import weka.core.Instances;
 
@@ -21,14 +22,15 @@ import weka.core.Instances;
  * @author lendle
  */
 public class Main extends javax.swing.JFrame {
-
+    private Lecture currentLecture=null;
     /**
      * Creates new form Main
      */
-    public Main(File homeFolder) {
+    public Main(Lecture currentLecture) {
+        this.currentLecture=currentLecture;
         initComponents();
         this.setSize(1000, 700);
-        List<InstanceData> list=InstanceDataFactory.newInstance().loadInstanceData(homeFolder);
+        List<InstanceData> list=InstanceDataFactory.newInstance().loadInstanceData(currentLecture.getHomeFolder());
         InstanceDataTableModel instanceDataTableModel=new InstanceDataTableModel();
         instanceDataTableModel.setInstanceDataList(list);
         this.tableData.setModel(instanceDataTableModel);
@@ -95,6 +97,11 @@ public class Main extends javax.swing.JFrame {
         jPanel1.add(buttonModeling);
 
         buttonVerify.setText("檢驗模型");
+        buttonVerify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonVerifyActionPerformed(evt);
+            }
+        });
         jPanel1.add(buttonVerify);
 
         tableData.setModel(new javax.swing.table.DefaultTableModel(
@@ -155,11 +162,28 @@ public class Main extends javax.swing.JFrame {
         if(rowIndex!=-1){
             InstanceDataTableModel model=(InstanceDataTableModel) this.tableData.getModel();
             Instances instances=model.getInstanceDataList().get(rowIndex).getInstances();
-            ModelingDialog dlg=new ModelingDialog(this, instances, false);
+            ModelingPanelContext modelingPanelContext=new ModelingPanelContext();
+            modelingPanelContext.setInstances(instances);
+            modelingPanelContext.setLecture(currentLecture);
+            ModelingDialog dlg=new ModelingDialog(this, modelingPanelContext, false);
+            dlg.setLocationRelativeTo(this);
             dlg.setSize(1000, 700);
             dlg.setVisible(true);
         }
     }//GEN-LAST:event_buttonModelingActionPerformed
+
+    private void buttonVerifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVerifyActionPerformed
+        // TODO add your handling code here:
+        int rowIndex=this.tableData.getSelectedRow();
+        if(rowIndex!=-1){
+            InstanceDataTableModel model=(InstanceDataTableModel) this.tableData.getModel();
+            Instances instances=model.getInstanceDataList().get(rowIndex).getInstances();
+            ClusterValidationDialog dlg=new ClusterValidationDialog(this, true, instances);
+            dlg.setLocationRelativeTo(this);
+            dlg.setSize(1000, 700);
+            dlg.setVisible(true);
+        }
+    }//GEN-LAST:event_buttonVerifyActionPerformed
 
     /**
      * @param args the command line arguments

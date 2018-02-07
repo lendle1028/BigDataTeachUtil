@@ -97,6 +97,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x6aa2;&#x9a57;&#x6a21;&#x578b;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonVerifyActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

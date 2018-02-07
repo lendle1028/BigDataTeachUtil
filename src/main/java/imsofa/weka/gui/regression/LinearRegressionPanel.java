@@ -21,14 +21,14 @@ public class LinearRegressionPanel extends AbstractRegressionPanel{
     protected RegressionResult performRegression() {
         RegressionResult result=new RegressionResult();
         DataSet dataSet=new DataSet();
-        double[] y = new double[instances.numInstances()];
+        double[] y = new double[panelContext.getInstances().numInstances()];
         for (int i = 0; i < y.length; i++) {
-            y[i]=instances.instance(i).value(instances.attribute(this.comboboxTarget.getSelectedItem().toString()));
+            y[i]=panelContext.getInstances().instance(i).value(panelContext.getInstances().attribute(this.comboboxTarget.getSelectedItem().toString()));
             Observation observation=new Observation(y[i]);
-            for(int j=0; j<instances.numAttributes(); j++){
-                Attribute attribute=instances.attribute(j);
+            for(int j=0; j<panelContext.getInstances().numAttributes(); j++){
+                Attribute attribute=panelContext.getInstances().attribute(j);
                 if(attribute.isNumeric() && attribute.name().equals(this.comboboxTarget.getSelectedItem())==false){
-                    observation.setIndependentValue(attribute.name(), instances.instance(i).value(attribute));
+                    observation.setIndependentValue(attribute.name(), panelContext.getInstances().instance(i).value(attribute));
                 }
             }
             dataSet.add(observation);

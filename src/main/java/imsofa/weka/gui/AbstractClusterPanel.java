@@ -9,14 +9,17 @@ import imsofa.weka.gui.model.ClusterResultTableModel;
 import imsofa.weka.gui.table.ClassPredictionResultTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.Clusterer;
-import weka.core.Attribute;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Remove;
@@ -28,33 +31,16 @@ import weka.gui.visualize.VisualizePanel;
  *
  * @author lendle
  */
-public abstract class AbstractClusterPanel extends javax.swing.JPanel {
-
-    protected Instances instances = null;
+public abstract class AbstractClusterPanel extends AbstractModelingPanel {
     protected Clusterer clusterer=null;
-    
-    public Instances getInstances() {
-        return instances;
-    }
-
-    public void setInstances(Instances instances) {
-        this.instances = instances;
-        /*Enumeration<Attribute> attributes = instances.enumerateAttributes();
-        this.comboboxClassAttribute.removeAllItems();
-        while (attributes.hasMoreElements()) {
-            Attribute attribute = attributes.nextElement();
-            if (attribute.isNominal()) {
-                this.comboboxClassAttribute.addItem(attribute.name());
-            }
-        }*/
-    }
-
+   
     /**
      * Creates new form KmeansClusterPanel
      */
     public AbstractClusterPanel() {
         try {
             initComponents();
+            
             tableResults.setModel(new ClusterResultTableModel());
 
             buttonStart.addActionListener(new ActionListener() {
@@ -73,6 +59,7 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
 
     }
 
+    
     protected abstract Instances prepareInstances();
     protected abstract Instances prepareTrainingInstances(Instances inst);
     
@@ -108,7 +95,7 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
         panelPlot.add(vp);
 
         ClusterResultTableModel model = new ClusterResultTableModel();
-        model.setInstances(instances);
+        model.setInstances(this.panelContext.getInstances());
         model.setEvaluation(eval);
         //model.setClassIndex(classIndex);
         tableResults.setModel(model);
@@ -162,6 +149,7 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
         panelSpecificSettings = new javax.swing.JPanel();
         panelActions = new javax.swing.JPanel();
         buttonStart = new javax.swing.JButton();
+        buttonSaveModel = new javax.swing.JButton();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         panelPlot = new javax.swing.JPanel();
@@ -201,6 +189,14 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
         buttonStart.setText("執行");
         panelActions.add(buttonStart);
 
+        buttonSaveModel.setText("儲存");
+        buttonSaveModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveModelActionPerformed(evt);
+            }
+        });
+        panelActions.add(buttonSaveModel);
+
         panelLeft.add(panelActions, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setLeftComponent(panelLeft);
@@ -233,8 +229,29 @@ public abstract class AbstractClusterPanel extends javax.swing.JPanel {
         add(jSplitPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonSaveModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveModelActionPerformed
+        // TODO add your handling code here:
+        saveModelAction();
+    }//GEN-LAST:event_buttonSaveModelActionPerformed
+    
+    protected void saveModel(File outputFile) throws IOException{
+        try(ObjectOutputStream output=new ObjectOutputStream(new FileOutputStream(outputFile))){
+            output.writeObject(this.clusterer);
+            output.flush();
+        }
+        
+//        for(int i=0; i<panelContext.getInstances().size(); i++){
+//            Instance instance=panelContext.getInstances().get(i);
+//            try {
+//                System.out.println(clusterer.clusterInstance(instance));
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonSaveModel;
     private javax.swing.JButton buttonStart;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;

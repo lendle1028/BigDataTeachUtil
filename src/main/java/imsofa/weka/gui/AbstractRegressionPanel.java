@@ -13,6 +13,8 @@ import imsofa.weka.gui.table.ClassPredictionResultTable;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.logging.Level;
@@ -35,18 +37,10 @@ import weka.core.Instances;
  *
  * @author lendle
  */
-public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
-
-    protected Instances instances = null;
-    protected Clusterer clusterer=null;
-    
-    public Instances getInstances() {
-        return instances;
-    }
-
-    public void setInstances(Instances instances) {
-        this.instances = instances;
-        Enumeration<Attribute> attributes = instances.enumerateAttributes();
+public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
+    public void setPanelContext(ModelingPanelContext panelContext) {
+        super.setPanelContext(panelContext);
+        Enumeration<Attribute> attributes = panelContext.getInstances().enumerateAttributes();
         this.comboboxTarget.removeAllItems();
         while (attributes.hasMoreElements()) {
             Attribute attribute = attributes.nextElement();
@@ -55,6 +49,7 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
             }
         }
     }
+   
 
     /**
      * Creates new form KmeansClusterPanel
@@ -87,14 +82,14 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
 
         RegressionResult result=this.performRegression();
         DataSet dataSet=new DataSet();
-        double[] y = new double[instances.numInstances()];
+        double[] y = new double[panelContext.getInstances().numInstances()];
         for (int i = 0; i < y.length; i++) {
-            y[i]=instances.instance(i).value(instances.attribute(this.comboboxTarget.getSelectedItem().toString()));
+            y[i]=panelContext.getInstances().instance(i).value(panelContext.getInstances().attribute(this.comboboxTarget.getSelectedItem().toString()));
             Observation observation=new Observation(y[i]);
-            for(int j=0; j<instances.numAttributes(); j++){
-                Attribute attribute=instances.attribute(j);
+            for(int j=0; j<panelContext.getInstances().numAttributes(); j++){
+                Attribute attribute=panelContext.getInstances().attribute(j);
                 if(attribute.isNumeric() && attribute.name().equals(this.comboboxTarget.getSelectedItem())==false){
-                    observation.setIndependentValue(attribute.name(), instances.instance(i).value(attribute));
+                    observation.setIndependentValue(attribute.name(), panelContext.getInstances().instance(i).value(attribute));
                 }
             }
             dataSet.add(observation);
@@ -103,15 +98,15 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
         XYSeriesCollection dataset = new XYSeriesCollection();
         XYSeries series1 = new XYSeries("data");
         
-        for (int i = 0; i < instances.numInstances(); i++) {
+        for (int i = 0; i < panelContext.getInstances().numInstances(); i++) {
             double estimatedY=result.getIntercept();
             for(Map.Entry<String,Double> entry: result.getCoefs().entrySet()){
                 String attrName=entry.getKey();
-                Attribute attribute=instances.attribute(attrName);
-                estimatedY+=instances.instance(i).value(attribute)*entry.getValue();
+                Attribute attribute=panelContext.getInstances().attribute(attrName);
+                estimatedY+=panelContext.getInstances().instance(i).value(attribute)*entry.getValue();
             }
-            Attribute resultAttribute=instances.attribute(this.comboboxTarget.getSelectedItem().toString());
-            series1.add(instances.instance(i).value(resultAttribute), estimatedY);
+            Attribute resultAttribute=panelContext.getInstances().attribute(this.comboboxTarget.getSelectedItem().toString());
+            series1.add(panelContext.getInstances().instance(i).value(resultAttribute), estimatedY);
         }
         dataset.addSeries(series1);
         JFreeChart chart = ChartFactory.createScatterPlot("plot", "X", "Y", dataset, PlotOrientation.HORIZONTAL, true, true, true);
@@ -124,7 +119,7 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
         this.panelPlot.add(panel);
         
         RegressionResultTableModel model=new RegressionResultTableModel();
-        model.setInstances(instances);
+        model.setInstances(panelContext.getInstances());
         model.setRegressionResult(result);
         tableResults.setModel(model);
         
@@ -145,6 +140,13 @@ public abstract class AbstractRegressionPanel extends javax.swing.JPanel {
             }
         });
     }
+
+    @Override
+    protected void saveModel(File outputFile) throws IOException{
+        
+    }
+    
+    
     
     //protected abstract Map createOptions();
 

@@ -103,7 +103,7 @@ public class MainLectureList extends javax.swing.JFrame {
         Object o=this.treeLectures.getSelectionPath().getLastPathComponent();
         if(o instanceof Lecture){
             Lecture lecture=(Lecture) o;
-            final Main main=new Main(lecture.getHomeFolder());
+            final Main main=new Main(lecture);
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {

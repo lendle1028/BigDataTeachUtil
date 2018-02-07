@@ -6,9 +6,11 @@
 package imsofa.weka.gui.clusterer;
 
 import imsofa.weka.gui.AbstractClusterPanel;
+import imsofa.weka.gui.ModelingPanelContext;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -92,9 +94,9 @@ public class HclustClusterPanel extends AbstractClusterPanel {
     }
 
     @Override
-    public void setInstances(Instances instances) {
-        super.setInstances(instances); //To change body of generated methods, choose Tools | Templates.
-        ((SpinnerNumberModel) hclustOptionsPanel.getSpinnerClusters().getModel()).setMaximum(instances.numInstances());
+    public void setPanelContext(ModelingPanelContext panelContext) {
+        super.setPanelContext(panelContext); //To change body of generated methods, choose Tools | Templates.
+        ((SpinnerNumberModel) hclustOptionsPanel.getSpinnerClusters().getModel()).setMaximum(panelContext.getInstances().numInstances());
     }
 
     @Override
@@ -104,9 +106,9 @@ public class HclustClusterPanel extends AbstractClusterPanel {
         String distanceFunctionName = (String) options.get("distanceFunction");
         DistanceFunction distanceFunction = null;
         if (distanceFunctionName.equals("尤拉距離")) {
-            distanceFunction = new EuclideanDistance(instances);
+            distanceFunction = new EuclideanDistance(panelContext.getInstances());
         } else {
-            distanceFunction = new ManhattanDistance(instances);
+            distanceFunction = new ManhattanDistance(panelContext.getInstances());
         }
         hierarchicalClusterer.setDistanceFunction(distanceFunction);
         ClusterEvaluation eval = new ClusterEvaluation();
@@ -126,7 +128,7 @@ public class HclustClusterPanel extends AbstractClusterPanel {
 
     @Override
     protected Instances prepareInstances() {
-        Instances inst = new Instances(instances);
+        Instances inst = new Instances(panelContext.getInstances());
         inst.setClassIndex(-1);
         //int classIndex = instances.attribute(comboboxClassAttribute.getSelectedItem().toString()).index();
         //inst.setClassIndex(classIndex);
@@ -140,5 +142,4 @@ public class HclustClusterPanel extends AbstractClusterPanel {
         //trainInst.setClassIndex(classIndex);
         return trainInst;
     }
-
 }

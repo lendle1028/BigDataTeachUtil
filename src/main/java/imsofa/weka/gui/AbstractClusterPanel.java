@@ -7,6 +7,8 @@ package imsofa.weka.gui;
 
 import imsofa.weka.gui.model.ClusterResultTableModel;
 import imsofa.weka.gui.table.ClassPredictionResultTable;
+import imsofa.weka.validation.DefaultClustererValidatorImpl;
+import imsofa.weka.validation.ValidationParameter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,7 +21,6 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.Clusterer;
-import weka.core.Instance;
 import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Remove;
@@ -235,19 +236,13 @@ public abstract class AbstractClusterPanel extends AbstractModelingPanel {
     }//GEN-LAST:event_buttonSaveModelActionPerformed
     
     protected void saveModel(File outputFile) throws IOException{
+        ValidationParameter<Clusterer> validationParameter=new ValidationParameter<>();
+        validationParameter.setValidator(clusterer);
+        validationParameter.setValidatorClassName(DefaultClustererValidatorImpl.class.getName());
         try(ObjectOutputStream output=new ObjectOutputStream(new FileOutputStream(outputFile))){
-            output.writeObject(this.clusterer);
+            output.writeObject(validationParameter);
             output.flush();
         }
-        
-//        for(int i=0; i<panelContext.getInstances().size(); i++){
-//            Instance instance=panelContext.getInstances().get(i);
-//            try {
-//                System.out.println(clusterer.clusterInstance(instance));
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
-//        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

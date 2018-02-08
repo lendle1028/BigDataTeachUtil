@@ -28,7 +28,7 @@ public abstract class AbstractModelingPanel extends JPanel {
     }
 
     protected FileFilter[] getSaveFileFilters() {
-        return new FileFilter[]{new FileNameExtensionFilter("所有檔案", "*.*")};
+        return new FileFilter[]{new FileNameExtensionFilter("驗證檔", "*.vmodel")};
     }
 
     public ModelingPanelContext getPanelContext() {
@@ -44,7 +44,11 @@ public abstract class AbstractModelingPanel extends JPanel {
         int ret=saveFileChooser.showSaveDialog(this);
         if(ret==JFileChooser.APPROVE_OPTION){
             try {
-                saveModel(saveFileChooser.getSelectedFile());
+                File file=saveFileChooser.getSelectedFile();
+                if(file.getName().endsWith(".vmodel")==false){
+                    file=new File(file.getCanonicalPath()+".vmodel");
+                }
+                saveModel(file);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

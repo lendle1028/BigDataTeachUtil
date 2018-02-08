@@ -8,7 +8,7 @@ package imsofa.weka.gui;
 import imsofa.weka.gui.dialogs.ModelingDialog;
 import imsofa.weka.Global;
 import imsofa.weka.factory.InstanceDataFactory;
-import imsofa.weka.gui.dialogs.ClusterValidationDialog;
+import imsofa.weka.gui.dialogs.ValidationDialog;
 import imsofa.weka.gui.dialogs.ViewDataDialog;
 import imsofa.weka.gui.model.InstanceDataTableModel;
 import imsofa.weka.gui.model.lecture.Lecture;
@@ -178,7 +178,10 @@ public class Main extends javax.swing.JFrame {
         if(rowIndex!=-1){
             InstanceDataTableModel model=(InstanceDataTableModel) this.tableData.getModel();
             Instances instances=model.getInstanceDataList().get(rowIndex).getInstances();
-            ClusterValidationDialog dlg=new ClusterValidationDialog(this, true, instances);
+            ModelingPanelContext modelingPanelContext=new ModelingPanelContext();
+            modelingPanelContext.setInstances(instances);
+            modelingPanelContext.setLecture(currentLecture);
+            ValidationDialog dlg=new ValidationDialog(this, true, modelingPanelContext);
             dlg.setLocationRelativeTo(this);
             dlg.setSize(1000, 700);
             dlg.setVisible(true);

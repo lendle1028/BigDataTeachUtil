@@ -10,6 +10,8 @@ import imsofa.weka.gui.model.ClassifyResultTableModel;
 import imsofa.weka.gui.model.ClusterResultTableModel;
 import imsofa.weka.gui.table.ClassPredictionResultTable;
 import imsofa.weka.model.InstanceData;
+import imsofa.weka.validation.DefaultDecisionTreeValidatorImpl;
+import imsofa.weka.validation.ValidationParameter;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,8 +71,12 @@ public abstract class AbstractDecisionTreePanel extends AbstractModelingPanel {
 
     @Override
     protected void saveModel(File outputFile) throws IOException{
+        ValidationParameter<Classifier> validationParameter=new ValidationParameter<>();
+        validationParameter.setValidator(classifier);
+        validationParameter.setValidatorClassName(DefaultDecisionTreeValidatorImpl.class.getName());
+        validationParameter.setParameter("classIndex", panelContext.getInstances().classIndex());
         try(ObjectOutputStream output=new ObjectOutputStream(new FileOutputStream(outputFile))){
-            output.writeObject(this.classifier);
+            output.writeObject(validationParameter);
             output.flush();
         }
     }
@@ -101,6 +107,7 @@ public abstract class AbstractDecisionTreePanel extends AbstractModelingPanel {
     }
 
     protected abstract void setupClassifier();
+  
 
     //protected abstract Instances prepareInstances();
     //protected abstract Instances prepareTrainingInstances(Instances inst);
@@ -122,6 +129,7 @@ public abstract class AbstractDecisionTreePanel extends AbstractModelingPanel {
                 int testMode = 0;
                 int numFolds = 10;
                 inst.setClassIndex(classIndex);
+                panelContext.getInstances().setClassIndex(classIndex);
 
                 Classifier template = null;
                 try {
@@ -384,6 +392,7 @@ public abstract class AbstractDecisionTreePanel extends AbstractModelingPanel {
         textResult = new javax.swing.JFormattedTextField();
         panelActions = new javax.swing.JPanel();
         buttonStart = new javax.swing.JButton();
+        buttonSave = new javax.swing.JButton();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         panelPlot = new javax.swing.JPanel();
@@ -447,6 +456,14 @@ public abstract class AbstractDecisionTreePanel extends AbstractModelingPanel {
         buttonStart.setText("執行");
         panelActions.add(buttonStart);
 
+        buttonSave.setText("儲存");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
+        panelActions.add(buttonSave);
+
         panelLeft.add(panelActions, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setLeftComponent(panelLeft);
@@ -479,8 +496,14 @@ public abstract class AbstractDecisionTreePanel extends AbstractModelingPanel {
         add(jSplitPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        // TODO add your handling code here:
+        this.saveModelAction();
+    }//GEN-LAST:event_buttonSaveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonSave;
     private javax.swing.JButton buttonStart;
     protected javax.swing.JComboBox<String> comboboxClassAttribute;
     private javax.swing.JLabel jLabel1;

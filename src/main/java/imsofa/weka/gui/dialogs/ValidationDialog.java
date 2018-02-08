@@ -5,21 +5,22 @@
  */
 package imsofa.weka.gui.dialogs;
 
-import weka.core.Instances;
+import imsofa.weka.gui.ModelingPanelContext;
 
 /**
  *
  * @author lendle
  */
-public class ClusterValidationDialog extends javax.swing.JDialog {
+public class ValidationDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ClusterValidationDialog
      */
-    public ClusterValidationDialog(java.awt.Frame parent, boolean modal, Instances instances) {
+    public ValidationDialog(java.awt.Frame parent, boolean modal, ModelingPanelContext ctx) {
         super(parent, modal);
         initComponents();
-        this.clusterValidationPanel1.verifyInstances(instances);
+        
+        this.clusterValidationPanel1.init(ctx);
     }
 
     /**
@@ -31,7 +32,7 @@ public class ClusterValidationDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        clusterValidationPanel1 = new imsofa.weka.gui.ClusterValidationPanel();
+        clusterValidationPanel1 = new imsofa.weka.gui.ValidationPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().add(clusterValidationPanel1, java.awt.BorderLayout.CENTER);
@@ -56,14 +57,29 @@ public class ClusterValidationDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClusterValidationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ValidationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClusterValidationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ValidationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClusterValidationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ValidationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClusterValidationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ValidationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                ClusterValidationDialog dialog = new ClusterValidationDialog(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -82,6 +98,6 @@ public class ClusterValidationDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private imsofa.weka.gui.ClusterValidationPanel clusterValidationPanel1;
+    private imsofa.weka.gui.ValidationPanel clusterValidationPanel1;
     // End of variables declaration//GEN-END:variables
 }

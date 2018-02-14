@@ -50,7 +50,7 @@ public class DefaultRenjinRegressionValidatorImpl implements Validator{
             for (int i = 0; i < instances.numAttributes(); i++) {
                 attributeNames.add(instances.attribute(i).name());
             }
-            attributeNames.add("預測結果");
+            attributeNames.add("Predict");
             CSVFormat cSVFormat = CSVFormat.EXCEL.withHeader(attributeNames.toArray(new String[0]));
 
             try {

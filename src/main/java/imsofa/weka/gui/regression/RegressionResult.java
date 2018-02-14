@@ -18,6 +18,15 @@ public class RegressionResult {
     protected double mape=-1;
     protected Map<String, Double> pValues=new HashMap<>();
     protected double intercept=-1;
+    protected double interceptPValue=-1;
+
+    public double getInterceptPValue() {
+        return interceptPValue;
+    }
+
+    public void setInterceptPValue(double interceptPValue) {
+        this.interceptPValue = interceptPValue;
+    }    
 
     public double getIntercept() {
         return intercept;

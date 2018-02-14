@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package imsofa.weka.gui.model;
+package imsofa.weka.gui.model.regression;
 
 import java.util.HashMap;
 import java.util.Map;

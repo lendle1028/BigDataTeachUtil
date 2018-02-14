@@ -8,7 +8,6 @@ package imsofa.weka.gui;
 import imsofa.weka.gui.model.ClusterResultTableModel;
 import imsofa.weka.gui.model.regression.RegressionResultTableModel;
 import imsofa.weka.gui.model.regression.RegressionStatisticsTableModel;
-import imsofa.weka.gui.model.regression.RegressionParameter;
 import imsofa.weka.gui.regression.RegressionResult;
 import imsofa.weka.gui.table.ClassPredictionResultTable;
 import java.awt.Color;
@@ -17,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,30 +29,32 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import weka.clusterers.Clusterer;
 import weka.core.Attribute;
+import weka.core.Instances;
 
 /**
  *
  * @author lendle
  */
-public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
+public abstract class AbstractRegressionPanel1 extends AbstractModelingPanel {
     public void setPanelContext(ModelingPanelContext panelContext) {
         super.setPanelContext(panelContext);
         Enumeration<Attribute> attributes = panelContext.getInstances().enumerateAttributes();
-//        this.comboboxTarget.removeAllItems();
-//        while (attributes.hasMoreElements()) {
-//            Attribute attribute = attributes.nextElement();
-//            if (attribute.isNumeric()) {
-//                this.comboboxTarget.addItem(attribute.name());
-//            }
-//        }
+        this.comboboxTarget.removeAllItems();
+        while (attributes.hasMoreElements()) {
+            Attribute attribute = attributes.nextElement();
+            if (attribute.isNumeric()) {
+                this.comboboxTarget.addItem(attribute.name());
+            }
+        }
     }
    
 
     /**
      * Creates new form KmeansClusterPanel
      */
-    public AbstractRegressionPanel() {
+    public AbstractRegressionPanel1() {
         try {
             initComponents();
             tableResults.setModel(new ClusterResultTableModel());
@@ -65,39 +65,30 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
                     try {
                         startButtonActionPerformed();
                     } catch (Exception ex) {
-                        Logger.getLogger(AbstractRegressionPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(AbstractRegressionPanel1.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             });
         } catch (Exception ex) {
-            Logger.getLogger(AbstractRegressionPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractRegressionPanel1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    protected abstract RegressionResult performRegression(List<RegressionParameter> parameters);
-    protected abstract List<RegressionParameter> getRegressionParameters();
+    protected abstract RegressionResult performRegression();
     
     protected void startButtonActionPerformed() throws Exception{
         panelPlot.removeAll();
-        
-        List<RegressionParameter> parameters=this.getRegressionParameters();
-        RegressionResult result=this.performRegression(parameters);
-        String leftFieldName=null;
-        for(RegressionParameter parameter : parameters){
-            if(parameter.isAsLeftField()){
-                leftFieldName=parameter.getFieldName();
-                break;
-            }
-        }
+
+        RegressionResult result=this.performRegression();
         DataSet dataSet=new DataSet();
         double[] y = new double[panelContext.getInstances().numInstances()];
         for (int i = 0; i < y.length; i++) {
-            y[i]=panelContext.getInstances().instance(i).value(panelContext.getInstances().attribute(leftFieldName));
+            y[i]=panelContext.getInstances().instance(i).value(panelContext.getInstances().attribute(this.comboboxTarget.getSelectedItem().toString()));
             Observation observation=new Observation(y[i]);
             for(int j=0; j<panelContext.getInstances().numAttributes(); j++){
                 Attribute attribute=panelContext.getInstances().attribute(j);
-                if(attribute.isNumeric() && attribute.name().equals(leftFieldName)==false){
+                if(attribute.isNumeric() && attribute.name().equals(this.comboboxTarget.getSelectedItem())==false){
                     observation.setIndependentValue(attribute.name(), panelContext.getInstances().instance(i).value(attribute));
                 }
             }
@@ -114,7 +105,7 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
                 Attribute attribute=panelContext.getInstances().attribute(attrName);
                 estimatedY+=panelContext.getInstances().instance(i).value(attribute)*entry.getValue();
             }
-            Attribute resultAttribute=panelContext.getInstances().attribute(leftFieldName);
+            Attribute resultAttribute=panelContext.getInstances().attribute(this.comboboxTarget.getSelectedItem().toString());
             series1.add(panelContext.getInstances().instance(i).value(resultAttribute), estimatedY);
         }
         dataset.addSeries(series1);
@@ -149,6 +140,13 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
             }
         });
     }
+
+    @Override
+    protected void saveModel(File outputFile) throws IOException{
+        
+    }
+    
+    
     
     //protected abstract Map createOptions();
 
@@ -165,10 +163,11 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
         panelLeft = new javax.swing.JPanel();
         panelSettings = new javax.swing.JPanel();
         panelCommonSettings = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        comboboxTarget = new javax.swing.JComboBox<>();
         panelSpecificSettings = new javax.swing.JPanel();
         panelActions = new javax.swing.JPanel();
         buttonStart = new javax.swing.JButton();
-        buttonSave = new javax.swing.JButton();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         panelPlot = new javax.swing.JPanel();
@@ -180,19 +179,40 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        jSplitPane1.setDividerLocation(400);
+        jSplitPane1.setDividerLocation(300);
 
         panelLeft.setLayout(new java.awt.BorderLayout());
 
-        panelSettings.setLayout(new java.awt.GridLayout(2, 1));
+        panelSettings.setLayout(new java.awt.BorderLayout());
 
         panelCommonSettings.setBorder(javax.swing.BorderFactory.createTitledBorder("一般設定"));
         panelCommonSettings.setPreferredSize(new java.awt.Dimension(299, 100));
-        panelCommonSettings.setLayout(new java.awt.BorderLayout());
-        panelSettings.add(panelCommonSettings);
+
+        jLabel1.setText("目標欄位：");
+
+        javax.swing.GroupLayout panelCommonSettingsLayout = new javax.swing.GroupLayout(panelCommonSettings);
+        panelCommonSettings.setLayout(panelCommonSettingsLayout);
+        panelCommonSettingsLayout.setHorizontalGroup(
+            panelCommonSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCommonSettingsLayout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(comboboxTarget, 0, 207, Short.MAX_VALUE))
+        );
+        panelCommonSettingsLayout.setVerticalGroup(
+            panelCommonSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCommonSettingsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelCommonSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(comboboxTarget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        panelSettings.add(panelCommonSettings, java.awt.BorderLayout.NORTH);
 
         panelSpecificSettings.setLayout(new java.awt.BorderLayout());
-        panelSettings.add(panelSpecificSettings);
+        panelSettings.add(panelSpecificSettings, java.awt.BorderLayout.CENTER);
 
         panelLeft.add(panelSettings, java.awt.BorderLayout.CENTER);
 
@@ -200,14 +220,6 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
 
         buttonStart.setText("執行");
         panelActions.add(buttonStart);
-
-        buttonSave.setText("儲存");
-        buttonSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonSaveActionPerformed(evt);
-            }
-        });
-        panelActions.add(buttonSave);
 
         panelLeft.add(panelActions, java.awt.BorderLayout.SOUTH);
 
@@ -255,22 +267,18 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
         add(jSplitPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
-        // TODO add your handling code here:
-        this.saveModelAction();
-    }//GEN-LAST:event_buttonSaveActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonSave;
     private javax.swing.JButton buttonStart;
+    protected javax.swing.JComboBox<String> comboboxTarget;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     protected javax.swing.JPanel panelActions;
-    protected javax.swing.JPanel panelCommonSettings;
+    private javax.swing.JPanel panelCommonSettings;
     private javax.swing.JPanel panelLeft;
     private javax.swing.JPanel panelPlot;
     protected javax.swing.JPanel panelSettings;

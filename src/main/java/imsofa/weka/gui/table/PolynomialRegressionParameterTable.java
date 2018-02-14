@@ -5,7 +5,7 @@
  */
 package imsofa.weka.gui.table;
 
-import imsofa.weka.gui.model.PolynomialRegressionParameterTableModel;
+import imsofa.weka.gui.model.regression.PolynomialRegressionParameterTableModel;
 import javax.swing.JTable;
 
 /**

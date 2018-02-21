@@ -5,7 +5,7 @@
  */
 package imsofa.weka.factory;
 
-import imsofa.weka.gui.model.lecture.LectureCategory;
+import imsofa.weka.model.lecture.LectureCategory;
 import java.util.List;
 
 /**

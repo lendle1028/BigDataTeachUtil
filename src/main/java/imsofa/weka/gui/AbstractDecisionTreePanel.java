@@ -357,7 +357,7 @@ public abstract class AbstractDecisionTreePanel extends AbstractModelingPanel {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setSize(800, 600);
 
-        List<InstanceData> list = InstanceDataFactory.newInstance().loadInstanceData(null);
+        List<InstanceData> list = InstanceDataFactory.newInstance().loadInstanceData((File)null);
         /*AbstractDecisionTreePanel panel = new AbstractDecisionTreePanel() {
             @Override
             protected void setupClassifier() {

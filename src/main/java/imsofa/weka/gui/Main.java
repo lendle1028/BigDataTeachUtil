@@ -11,7 +11,7 @@ import imsofa.weka.factory.InstanceDataFactory;
 import imsofa.weka.gui.dialogs.ValidationDialog;
 import imsofa.weka.gui.dialogs.ViewDataDialog;
 import imsofa.weka.gui.model.InstanceDataTableModel;
-import imsofa.weka.gui.model.lecture.Lecture;
+import imsofa.weka.model.lecture.Lecture;
 import imsofa.weka.gui.wizard.WizardWindow;
 import imsofa.weka.model.InstanceData;
 import java.util.List;
@@ -30,7 +30,7 @@ public class Main extends javax.swing.JFrame {
         this.currentLecture=currentLecture;
         initComponents();
         this.setSize(1000, 700);
-        List<InstanceData> list=InstanceDataFactory.newInstance().loadInstanceData(currentLecture.getHomeFolder());
+        List<InstanceData> list=InstanceDataFactory.newInstance().loadInstanceData(currentLecture);
         InstanceDataTableModel instanceDataTableModel=new InstanceDataTableModel();
         instanceDataTableModel.setInstanceDataList(list);
         this.tableData.setModel(instanceDataTableModel);

@@ -6,6 +6,8 @@
 package imsofa.weka.factory;
 
 import imsofa.weka.model.InstanceData;
+import imsofa.weka.model.lecture.Lecture;
+import imsofa.weka.model.lecture.LectureMaterial;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -39,6 +41,15 @@ public class BasicInstanceDataFactory extends InstanceDataFactory {
             }
             return ret;
         }
+    }
+
+    @Override
+    public List<InstanceData> loadInstanceData(Lecture lecture) {
+        List<InstanceData> ret=new ArrayList<>();
+        for(LectureMaterial material : lecture.getSourceFiles()){
+            ret.add(new InstanceData(material.getComment(), material.getDataFile(), null));
+        }
+        return ret;
     }
 
 }

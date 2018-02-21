@@ -5,6 +5,8 @@
  */
 package imsofa.weka.gui.model.lecture;
 
+import imsofa.weka.model.lecture.LectureCategory;
+import imsofa.weka.model.lecture.Lecture;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTree;

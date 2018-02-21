@@ -5,6 +5,7 @@
  */
 package imsofa.weka.gui.model.lecture;
 
+import imsofa.weka.model.lecture.LectureCategory;
 import java.util.List;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;

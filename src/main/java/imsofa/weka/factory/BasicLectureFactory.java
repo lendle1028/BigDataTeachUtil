@@ -5,12 +5,16 @@
  */
 package imsofa.weka.factory;
 
-import imsofa.weka.gui.model.lecture.Lecture;
-import imsofa.weka.gui.model.lecture.LectureCategory;
+import com.google.gson.Gson;
+import imsofa.weka.model.lecture.Lecture;
+import imsofa.weka.model.lecture.LectureCategory;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -23,6 +27,9 @@ public class BasicLectureFactory extends LectureFactory{
      * lectures
      * ...category1
      * ......lecture1
+     * .........csv file1
+     * .........csv file2
+     * .........lecture.conf
      * ......lecture2
      * @return 
      */
@@ -44,17 +51,22 @@ public class BasicLectureFactory extends LectureFactory{
         lectureCategory.setName(categoryFolder.getName());
         File [] lectureFolders=categoryFolder.listFiles();
         for(File lectureFolder : lectureFolders){
-            Lecture lecture=new Lecture();
-            lecture.setName(lectureFolder.getName());
-            File [] csvFiles=lectureFolder.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File pathname) {
-                    return pathname.getName().toLowerCase().endsWith(".csv");
-                }
-            });
-            lecture.setSourceFiles(csvFiles);
-            lecture.setHomeFolder(lectureFolder);
-            lectureCategory.getLectures().add(lecture);
+            try {
+                /*File [] csvFiles=lectureFolder.listFiles(new FileFilter() {
+                    @Override
+                    public boolean accept(File pathname) {
+                        return pathname.getName().toLowerCase().endsWith(".csv");
+                    }
+                });*/
+                File confFile=new File(lectureFolder, "lecture.conf");
+                String content=FileUtils.readFileToString(confFile, "utf-8");
+                Lecture lecture=new Gson().fromJson(content, Lecture.class);
+                
+                lecture.setHomeFolder(lectureFolder);
+                lectureCategory.getLectures().add(lecture);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         return lectureCategory;
     }

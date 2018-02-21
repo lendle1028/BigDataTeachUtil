@@ -5,7 +5,7 @@
  */
 package imsofa.weka.gui;
 
-import imsofa.weka.gui.model.lecture.Lecture;
+import imsofa.weka.model.lecture.Lecture;
 import weka.core.Instances;
 
 /**

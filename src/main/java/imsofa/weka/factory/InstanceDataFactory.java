@@ -6,6 +6,7 @@
 package imsofa.weka.factory;
 
 import imsofa.weka.model.InstanceData;
+import imsofa.weka.model.lecture.Lecture;
 import java.io.File;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public abstract class InstanceDataFactory {
     public abstract List<InstanceData> loadInstanceData(File homeFolder);
+    public abstract List<InstanceData> loadInstanceData(Lecture lecture);
     public static final InstanceDataFactory newInstance(){
         return new BasicInstanceDataFactory();
     }

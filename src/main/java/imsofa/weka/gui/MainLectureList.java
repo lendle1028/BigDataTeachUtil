@@ -6,7 +6,7 @@
 package imsofa.weka.gui;
 
 import imsofa.weka.factory.LectureFactory;
-import imsofa.weka.gui.model.lecture.Lecture;
+import imsofa.weka.model.lecture.Lecture;
 import imsofa.weka.gui.model.lecture.LectureNodeRenderer;
 import imsofa.weka.gui.model.lecture.LectureTreeModel;
 import javax.swing.SwingUtilities;
@@ -51,16 +51,24 @@ public class MainLectureList extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         buttonLoad = new javax.swing.JButton();
         buttonReload = new javax.swing.JButton();
         buttonExit = new javax.swing.JButton();
         treeLecturesPane = new javax.swing.JScrollPane();
         treeLectures = new javax.swing.JTree();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textComment = new javax.swing.JEditorPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("選擇教程");
         setPreferredSize(new java.awt.Dimension(800, 600));
+
+        jSplitPane1.setDividerLocation(500);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
@@ -88,12 +96,27 @@ public class MainLectureList extends javax.swing.JFrame {
         });
         jPanel1.add(buttonExit);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+        jPanel2.add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         treeLectures.setRootVisible(false);
+        treeLectures.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                treeLecturesValueChanged(evt);
+            }
+        });
         treeLecturesPane.setViewportView(treeLectures);
 
-        getContentPane().add(treeLecturesPane, java.awt.BorderLayout.CENTER);
+        jPanel2.add(treeLecturesPane, java.awt.BorderLayout.CENTER);
+
+        jSplitPane1.setLeftComponent(jPanel2);
+
+        textComment.setEditable(false);
+        textComment.setContentType("text/html"); // NOI18N
+        jScrollPane1.setViewportView(textComment);
+
+        jSplitPane1.setRightComponent(jScrollPane1);
+
+        getContentPane().add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -129,6 +152,15 @@ public class MainLectureList extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_buttonExitActionPerformed
+
+    private void treeLecturesValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeLecturesValueChanged
+        // TODO add your handling code here:
+        Object selectedComponent=treeLectures.getSelectionPath().getLastPathComponent();
+        if(selectedComponent instanceof Lecture){
+            Lecture lecture=(Lecture) selectedComponent;
+            textComment.setText(lecture.getComment());
+        }
+    }//GEN-LAST:event_treeLecturesValueChanged
 
     /**
      * @param args the command line arguments
@@ -170,6 +202,10 @@ public class MainLectureList extends javax.swing.JFrame {
     private javax.swing.JButton buttonLoad;
     private javax.swing.JButton buttonReload;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JEditorPane textComment;
     private javax.swing.JTree treeLectures;
     private javax.swing.JScrollPane treeLecturesPane;
     // End of variables declaration//GEN-END:variables

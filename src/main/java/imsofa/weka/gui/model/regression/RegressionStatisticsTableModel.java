@@ -5,6 +5,7 @@
  */
 package imsofa.weka.gui.model.regression;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.table.AbstractTableModel;
@@ -19,6 +20,17 @@ public class RegressionStatisticsTableModel extends AbstractTableModel{
     protected double mape=-1;
     protected Map<String, Double> pValues=new HashMap<>();
     protected double intercept=-1;
+    protected double interceptPValue=-1;
+
+    public double getInterceptPValue() {
+        return interceptPValue;
+    }
+
+    public void setInterceptPValue(double interceptPValue) {
+        this.interceptPValue = interceptPValue;
+    }
+    
+    
 
     public Map<String, Double> getCoefs() {
         return coefs;
@@ -69,7 +81,7 @@ public class RegressionStatisticsTableModel extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -92,11 +104,12 @@ public class RegressionStatisticsTableModel extends AbstractTableModel{
             }else if(rowIndex==coefs.size()+1+1){
                 return ""+this.mape;
             }else{
+                //System.out.println(coefs.keySet().toArray(new String[0])[rowIndex-1]+":"+coefs.get(coefs.keySet().toArray(new String[0])[rowIndex-1]));
                 return ""+coefs.get(coefs.keySet().toArray(new String[0])[rowIndex-1]);
             }
         }else{
             if(rowIndex==0){
-                return "";
+                return ""+interceptPValue;
             }else if(rowIndex==coefs.size()+1+0){
                 return "";
             }else if(rowIndex==coefs.size()+1+1){

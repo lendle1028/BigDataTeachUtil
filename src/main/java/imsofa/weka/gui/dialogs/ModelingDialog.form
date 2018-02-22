@@ -52,6 +52,15 @@
                 </Constraint>
               </Constraints>
             </Component>
+            <Component class="imsofa.weka.gui.regression.PolynomialRegressionPanel" name="panelPolynomialRegression">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                  <JTabbedPaneConstraints tabName="&#x591a;&#x9805;&#x5f0f;&#x8ff4;&#x6b78;">
+                    <Property name="tabTitle" type="java.lang.String" value="&#x591a;&#x9805;&#x5f0f;&#x8ff4;&#x6b78;"/>
+                  </JTabbedPaneConstraints>
+                </Constraint>
+              </Constraints>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JTabbedPane" name="panelDecisionTree">

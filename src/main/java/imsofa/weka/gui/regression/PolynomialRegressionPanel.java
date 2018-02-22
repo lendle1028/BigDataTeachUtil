@@ -9,7 +9,6 @@ import imsofa.weka.gui.AbstractRegressionPanel;
 import imsofa.weka.gui.ModelingPanelContext;
 import imsofa.weka.gui.model.regression.RegressionParameter;
 import imsofa.weka.gui.model.regression.RegressionParameterTableModel;
-import imsofa.weka.gui.table.LinearRegressionParameterTable;
 import imsofa.weka.gui.table.RegressionParameterTable;
 import imsofa.weka.utils.RenjinWrapper;
 import imsofa.weka.validation.DefaultRenjinRegressionValidatorImpl;
@@ -35,7 +34,7 @@ import weka.core.Attribute;
  *
  * @author lendle
  */
-public class LinearRegressionPanel extends AbstractRegressionPanel {
+public class PolynomialRegressionPanel extends AbstractRegressionPanel {
 
     private List<RegressionParameter> parameters = new ArrayList<>();
     private byte[] tempModelFile = null;
@@ -58,7 +57,7 @@ public class LinearRegressionPanel extends AbstractRegressionPanel {
         }
 
         RegressionParameterTableModel model = new RegressionParameterTableModel(parameters);
-        RegressionParameterTable table = new LinearRegressionParameterTable(model);
+        RegressionParameterTable table = new RegressionParameterTable(model);
         JScrollPane scrollPane = new JScrollPane();
         this.panelCommonSettings.add(scrollPane);
         scrollPane.getViewport().add(table);
@@ -88,9 +87,13 @@ public class LinearRegressionPanel extends AbstractRegressionPanel {
                     } else {
                         exp = exp + "+" + parameter.getFieldName();
                     }
+                    for (int i = 2; i <= parameter.getRank(); i++) {
+                        numXVar++;
+                        exp = exp + "+" + "I(" + parameter.getFieldName() + "^" + i + ")";
+                    }
                 }
             }
-
+            System.out.println(exp);
             RenjinWrapper renjinWrapper = new RenjinWrapper();
             renjinWrapper.loadData(panelContext.getInstances(), "df");
 
@@ -99,6 +102,7 @@ public class LinearRegressionPanel extends AbstractRegressionPanel {
             renjinWrapper.eval("print(s)");
             ListVector o = (ListVector) renjinWrapper.getVar("s");
             DoubleArrayVector o1 = (DoubleArrayVector) o.get("coefficients");
+            System.out.println(Arrays.toString(o1.toDoubleArray()));
             result.setIntercept(o1.get(0));
             result.setInterceptPValue(o1.get((numXVar+1) * 3));
             Map<String, Double> coefs = new HashMap<>();
@@ -106,17 +110,21 @@ public class LinearRegressionPanel extends AbstractRegressionPanel {
             int index = 1;
             for (RegressionParameter parameter : parameters) {
                 if (parameter.isAsRightField()) {
-                    coefs.put(parameter.getFieldName(), o1.get(index));
-                    pValues.put(parameter.getFieldName(), o1.get((numXVar+1) * 3 + index));
-                    index++;
+                    for (int i = 1; i <= parameter.getRank(); i++) {
+                        String fieldName=(i==1)?parameter.getFieldName():parameter.getFieldName()+"^"+parameter.getRank();
+                        coefs.put(fieldName, o1.get(index));
+                        pValues.put(fieldName, o1.get((numXVar+1) * 3 + index));
+                        System.out.println(fieldName+":"+o1.get((numXVar+1) * 3 + index));
+                        index++;
+                    }
                 }
             }
             result.setCoefs(coefs);
             result.setPValues(pValues);
             result.setMse(((DoubleArrayVector) renjinWrapper.eval("mean(s$residuals^2)")).get(0));
             result.setMape(((DoubleArrayVector) renjinWrapper.eval("mean(abs(model$fitted.values-df$" + yVar + ")/df$" + yVar + ")*100")).get(0));
-            
-            File file=File.createTempFile("temp", ".model");
+
+            File file = File.createTempFile("temp", ".model");
             String path = file.getCanonicalPath().replace("\\", "/");
             renjinWrapper.eval("save(model, file='" + path + "')");
             tempModelFile = FileUtils.readFileToByteArray(file);

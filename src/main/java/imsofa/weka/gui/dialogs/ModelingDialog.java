@@ -20,6 +20,7 @@ public class ModelingDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.panelLinearRegression.setPanelContext(panelContext);
+        this.panelPolynomialRegression.setPanelContext(panelContext);
         this.panelJ48DecisionTree.setPanelContext(panelContext);
         this.panelKmeansCluster.setPanelContext(panelContext);
         this.panelRandomTreeDecisionTree.setPanelContext(panelContext);
@@ -37,6 +38,7 @@ public class ModelingDialog extends javax.swing.JDialog {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelRegression = new javax.swing.JTabbedPane();
         panelLinearRegression = new imsofa.weka.gui.regression.LinearRegressionPanel();
+        panelPolynomialRegression = new imsofa.weka.gui.regression.PolynomialRegressionPanel();
         panelDecisionTree = new javax.swing.JTabbedPane();
         panelJ48DecisionTree = new imsofa.weka.gui.decisiontree.J48DecisionTreePanel();
         panelRandomTreeDecisionTree = new imsofa.weka.gui.decisiontree.RandomTreeDecisionTreePanel();
@@ -46,6 +48,7 @@ public class ModelingDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelRegression.addTab("線性迴歸", panelLinearRegression);
+        panelRegression.addTab("多項式迴歸", panelPolynomialRegression);
 
         jTabbedPane1.addTab("迴歸", panelRegression);
 
@@ -112,6 +115,7 @@ public class ModelingDialog extends javax.swing.JDialog {
     private imsofa.weka.gui.decisiontree.J48DecisionTreePanel panelJ48DecisionTree;
     private imsofa.weka.gui.clusterer.KmeansClusterPanel panelKmeansCluster;
     private imsofa.weka.gui.regression.LinearRegressionPanel panelLinearRegression;
+    private imsofa.weka.gui.regression.PolynomialRegressionPanel panelPolynomialRegression;
     private imsofa.weka.gui.decisiontree.RandomTreeDecisionTreePanel panelRandomTreeDecisionTree;
     private javax.swing.JTabbedPane panelRegression;
     // End of variables declaration//GEN-END:variables

@@ -111,6 +111,9 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
             double estimatedY=result.getIntercept();
             for(Map.Entry<String,Double> entry: result.getCoefs().entrySet()){
                 String attrName=entry.getKey();
+                if(attrName.contains("^")){
+                    attrName=attrName.substring(0, attrName.indexOf("^"));
+                }
                 Attribute attribute=panelContext.getInstances().attribute(attrName);
                 estimatedY+=panelContext.getInstances().instance(i).value(attribute)*entry.getValue();
             }
@@ -135,6 +138,7 @@ public abstract class AbstractRegressionPanel extends AbstractModelingPanel {
         RegressionStatisticsTableModel regressionStatisticsTableModel=new RegressionStatisticsTableModel();
         regressionStatisticsTableModel.setCoefs(result.getCoefs());
         regressionStatisticsTableModel.setIntercept(result.getIntercept());
+        regressionStatisticsTableModel.setInterceptPValue(result.getInterceptPValue());
         regressionStatisticsTableModel.setMape(result.getMape());
         regressionStatisticsTableModel.setMse(result.getMse());
         regressionStatisticsTableModel.setpValues(result.getPValues());
